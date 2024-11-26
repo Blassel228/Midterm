@@ -1,0 +1,44 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.7.6'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'war'
+}
+
+group = 'com.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // Correct Hibernate and JPA versions
+    implementation 'org.hibernate:hibernate-core:5.6.10.Final' // Use only this version
+    implementation 'jakarta.persistence:jakarta.persistence-api:3.1.0' // Use the correct version
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // If you want to specify Hibernate version explicitly
+    implementation 'org.hibernate:hibernate-core:5.6.10.Final' // Update to the desired version
+    implementation 'com.h2database:h2'
+    testImplementation 'junit:junit:4.13.1'
+    implementation 'org.postgresql:postgresql:42.6.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+ext {
+    // If you want to define the Hibernate version globally for your project
+    hibernateVersion = '5.6.10.Final' // Update to your desired version
+}
+
+war {
+    archiveFileName = 'myapp.war'
+    webAppDirName = 'src/main/webapp'
+}
