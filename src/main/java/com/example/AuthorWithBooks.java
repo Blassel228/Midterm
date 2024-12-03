@@ -10,13 +10,11 @@ public class AuthorWithBooks {
     private Author author;
     private List<Book> books;
 
-    // Constructor
     public AuthorWithBooks(Author author, List<Book> books) {
         this.author = author;
         this.books = books;
     }
 
-    // Getters and setters
     public Author getAuthor() {
         return author;
     }

@@ -17,13 +17,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-    // Correct Hibernate and JPA versions
-    implementation 'org.hibernate:hibernate-core:5.6.10.Final' // Use only this version
-    implementation 'jakarta.persistence:jakarta.persistence-api:3.1.0' // Use the correct version
+    implementation 'org.hibernate:hibernate-core:5.6.10.Final'
+    implementation 'jakarta.persistence:jakarta.persistence-api:3.1.0'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
-    // If you want to specify Hibernate version explicitly
-    implementation 'org.hibernate:hibernate-core:5.6.10.Final' // Update to the desired version
+    implementation 'org.springdoc:springdoc-openapi-ui:1.7.0'
+    implementation 'org.hibernate:hibernate-core:5.6.10.Final'
     implementation 'com.h2database:h2'
     testImplementation 'junit:junit:4.13.1'
     implementation 'org.postgresql:postgresql:42.6.0'

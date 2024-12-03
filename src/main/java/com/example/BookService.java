@@ -62,13 +62,13 @@ public class BookService {
     public List<Author> getAllAuthorsByBookId(Long bookId) {
         Optional<Book> book = bookRepository.findById(bookId);
         if (book.isPresent()) {
-            return List.of(book.get().getAuthor());  // Assuming a Book has a single Author
+            return List.of(book.get().getAuthor());
         } else {
             throw new RuntimeException("Book not found");
         }
     }
 
     public List<Book> getBooksByAuthorId(Long authorId) {
-        return bookRepository.findByAuthor_Id(authorId);  // Assuming this query method exists in BookRepository
+        return bookRepository.findByAuthor_Id(authorId);
     }
 }
