@@ -15,7 +15,9 @@ public class Author {
 
     public Author() {}
 
-    public Author(String name) {
+    public Author(String name, Long id)
+    {
+        this.id = id;
         this.name = name;
     }
 

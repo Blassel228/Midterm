@@ -40,6 +40,12 @@ public class AuthorController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping()
+    public List<Author> getAllAuthors() {
+        return authorService.getAllAuthors();
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{id}")
     public Author getAuthor(@PathVariable Long id) {
         return authorService.getAuthorById(id)

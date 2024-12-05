@@ -22,6 +22,12 @@ public class BookController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping
+    public List<Book> getAllBooks() {
+        return bookService.getAllBooks();
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/{id}")
     public Book updateBook(@PathVariable Long id, @RequestBody Book book) {
         return bookService.updateBook(id, book);

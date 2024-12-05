@@ -33,8 +33,7 @@ test {
 }
 
 ext {
-    // If you want to define the Hibernate version globally for your project
-    hibernateVersion = '5.6.10.Final' // Update to your desired version
+    hibernateVersion = '5.6.10.Final'
 }
 
 war {
