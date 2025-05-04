@@ -1,5 +1,6 @@
-package com.example;
+package com.example.service;
 
+import com.example.schemas.BookSummary;
 import com.example.model.Author;
 import com.example.model.Book;
 import com.example.repository.AuthorRepository;

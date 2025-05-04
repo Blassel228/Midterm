@@ -1,4 +1,4 @@
-package com.example;
+package com.example.service;
 
 import com.example.model.Author;
 import com.example.repository.AuthorRepository;

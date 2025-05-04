@@ -1,8 +1,7 @@
 package com.example.controller;
 
-import com.example.BookController;
-import com.example.BookService;
-import com.example.BookSummary;
+import com.example.service.BookService;
+import com.example.schemas.BookSummary;
 import com.example.model.Author;
 import com.example.model.Book;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -43,10 +42,8 @@ class BookControllerTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         objectMapper = new ObjectMapper();
-        author = new Author("Author Name");
-        author.setId(1L);
-        book = new Book("Book Title", author);
-        book.setId(1L);
+        author = new Author("Author Name", 1L);
+        book = new Book(1L,"Book Title", author);
 
         mockMvc = MockMvcBuilders.standaloneSetup(bookController).build();
     }

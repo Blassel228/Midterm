@@ -1,18 +1,17 @@
 package com.example.controller;
 
-import com.example.AuthorController;
-import com.example.AuthorService;
+import com.example.service.AuthorService;
 import com.example.model.Author;
 import com.example.model.Book;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,19 +19,20 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(AuthorController.class)
 class AuthorControllerTest {
 
-    @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @Mock
     private AuthorService authorService;
 
-    @Autowired
+    @InjectMocks
+    private AuthorController authorController;
+
     private ObjectMapper objectMapper;
 
     private Author sampleAuthor;
@@ -40,26 +40,22 @@ class AuthorControllerTest {
 
     @BeforeEach
     void setUp() {
-        sampleAuthor = new Author();
-        sampleAuthor.setId(1L);
-        sampleAuthor.setName("John Doe");
+        MockitoAnnotations.openMocks(this);
+        objectMapper = new ObjectMapper();
 
-        Book book1 = new Book();
-        book1.setId(1L);
-        book1.setTitle("Book 1");
-        book1.setAuthor(sampleAuthor);
+        sampleAuthor = new Author("John Doe", 1L);
 
-        Book book2 = new Book();
-        book2.setId(2L);
-        book2.setTitle("Book 2");
-        book2.setAuthor(sampleAuthor);
+        Book book1 = new Book(1L, "Book 1", sampleAuthor);
+        Book book2 = new Book(2L, "Book 2", sampleAuthor);
 
         sampleBooks = Arrays.asList(book1, book2);
+
+        mockMvc = MockMvcBuilders.standaloneSetup(authorController).build();
     }
 
     @Test
     void testCreateAuthor() throws Exception {
-        Mockito.when(authorService.saveAuthor(any(Author.class))).thenReturn(sampleAuthor);
+        when(authorService.saveAuthor(any(Author.class))).thenReturn(sampleAuthor);
 
         mockMvc.perform(post("/authors")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -67,11 +63,13 @@ class AuthorControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(sampleAuthor.getId()))
                 .andExpect(jsonPath("$.name").value(sampleAuthor.getName()));
+
+        verify(authorService, times(1)).saveAuthor(any(Author.class));
     }
 
     @Test
     void testUpdateAuthor() throws Exception {
-        Mockito.when(authorService.updateAuthor(anyLong(), any(Author.class))).thenReturn(sampleAuthor);
+        when(authorService.updateAuthor(anyLong(), any(Author.class))).thenReturn(sampleAuthor);
 
         mockMvc.perform(put("/authors/{id}", sampleAuthor.getId())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -79,33 +77,41 @@ class AuthorControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(sampleAuthor.getId()))
                 .andExpect(jsonPath("$.name").value(sampleAuthor.getName()));
+
+        verify(authorService, times(1)).updateAuthor(anyLong(), any(Author.class));
     }
 
     @Test
     void testDeleteAuthor() throws Exception {
-        Mockito.doNothing().when(authorService).deleteAuthor(anyLong());
+        doNothing().when(authorService).deleteAuthor(anyLong());
 
-        mockMvc.perform(delete("/authors/{id}", 1L))
+        mockMvc.perform(delete("/authors/{id}", sampleAuthor.getId()))
                 .andExpect(status().isOk());
+
+        verify(authorService, times(1)).deleteAuthor(anyLong());
     }
 
     @Test
     void testGetAllAuthors() throws Exception {
-        Mockito.when(authorService.getAllAuthors()).thenReturn(List.of(sampleAuthor));
+        when(authorService.getAllAuthors()).thenReturn(List.of(sampleAuthor));
 
         mockMvc.perform(get("/authors"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(sampleAuthor.getId()))
                 .andExpect(jsonPath("$[0].name").value(sampleAuthor.getName()));
+
+        verify(authorService, times(1)).getAllAuthors();
     }
 
     @Test
     void testGetAuthorById() throws Exception {
-        Mockito.when(authorService.getAuthorById(anyLong())).thenReturn(Optional.of(sampleAuthor));
+        when(authorService.getAuthorById(anyLong())).thenReturn(Optional.of(sampleAuthor));
 
         mockMvc.perform(get("/authors/{id}", sampleAuthor.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(sampleAuthor.getId()))
                 .andExpect(jsonPath("$.name").value(sampleAuthor.getName()));
+
+        verify(authorService, times(1)).getAuthorById(anyLong());
     }
 }

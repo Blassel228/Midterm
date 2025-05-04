@@ -1,5 +1,8 @@
-package com.example;
+package com.example.schemas;
 
+import lombok.Getter;
+
+@Getter
 public class BookSummary {
     private Long id;
     private String title;
@@ -9,12 +12,5 @@ public class BookSummary {
         this.title = title;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
 }
 

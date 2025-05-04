@@ -1,10 +1,12 @@
-package com.example;
+package com.example.schemas;
 
 import com.example.model.Author;
 import com.example.model.Book;
+import lombok.Getter;
 
 import java.util.List;
 
+@Getter
 public class AuthorWithBooks {
 
     private Author author;
@@ -15,16 +17,8 @@ public class AuthorWithBooks {
         this.books = books;
     }
 
-    public Author getAuthor() {
-        return author;
-    }
-
     public void setAuthor(Author author) {
         this.author = author;
-    }
-
-    public List<Book> getBooks() {
-        return books;
     }
 
     public void setBooks(List<Book> books) {
